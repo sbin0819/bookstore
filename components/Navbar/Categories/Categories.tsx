@@ -1,4 +1,4 @@
-const Category = () => {
+const Categories = () => {
   return (
     <div>
       <h1>Category</h1>
@@ -6,4 +6,4 @@ const Category = () => {
   );
 };
 
-export default Category;
+export default Categories;

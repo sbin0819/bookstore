@@ -18,7 +18,7 @@ const Search = () => {
         <div
           className={clsx(
             'cursor-pointer',
-            tab === 'accommodation' && 'font-bold'
+            tab === 'accommodation' && 'font-semibold'
           )}
           onClick={() => handleTab('accommodation')}
         >
@@ -27,7 +27,7 @@ const Search = () => {
         <div
           className={clsx(
             'cursor-pointer',
-            tab === 'experience' && 'font-bold'
+            tab === 'experience' && 'font-semibold'
           )}
           onClick={() => handleTab('experience')}
         >
