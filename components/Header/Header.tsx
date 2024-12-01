@@ -1,5 +1,6 @@
 import Image from 'next/image';
-import { GrLanguage } from 'react-icons/gr';
+import HeaderDropdown from './Dropdown';
+import TranslateDialog from './TranslateDialog';
 
 const Header = () => {
   return (
@@ -10,7 +11,8 @@ const Header = () => {
         </div>
         <div className="flex items-center gap-4">
           <div>당신의 공간을 에어비엔비하세요.</div>
-          <GrLanguage />
+          <TranslateDialog />
+          <HeaderDropdown />
         </div>
       </div>
     </div>

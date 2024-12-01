@@ -23,12 +23,14 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${pretendard.variable} ${pretendard.className} px-6`}>
-        <div className="sticky top-0 z-10 bg-white">
-          <Header />
-          <Search />
+      <body className={`${pretendard.variable} ${pretendard.className}`}>
+        <div className="px-6">
+          <div className="sticky top-0 z-10 bg-white">
+            <Header />
+            <Search />
+          </div>
+          {children}
         </div>
-        {children}
       </body>
     </html>
   );
