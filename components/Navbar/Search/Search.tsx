@@ -13,7 +13,7 @@ const Search = () => {
   };
 
   return (
-    <div className="mt-4">
+    <div>
       <div className="flex items-center justify-center gap-10 text-lg">
         <div
           className={clsx(
@@ -34,7 +34,7 @@ const Search = () => {
           체험
         </div>
       </div>
-      <div className="mt-8 h-20 rounded-full border border-slate-200 shadow-lg"></div>
+      <div className="m-auto mt-4 h-20 max-w-[850px] rounded-full border border-slate-200 shadow-lg"></div>
     </div>
   );
 };

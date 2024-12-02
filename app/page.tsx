@@ -6,6 +6,13 @@ export default function Home() {
       <Navbar />
       <h1 className="text-9xl font-bold">안녕하세요</h1>
       <h1 className="text-9xl font-bold">안녕하세요</h1>
+      <h1 className="text-9xl font-bold">안녕하세요</h1>
+      <h1 className="text-9xl font-bold">안녕하세요</h1>
+      <h1 className="text-9xl font-bold">안녕하세요</h1>
+      <h1 className="text-9xl font-bold">안녕하세요</h1>
+      <h1 className="text-9xl font-bold">안녕하세요</h1>
+
+      <h1 className="text-9xl font-bold">안녕하세요</h1>
     </div>
   );
 }
