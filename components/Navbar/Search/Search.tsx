@@ -1,7 +1,8 @@
 'use client';
 
+import axios from 'axios';
 import clsx from 'clsx';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 type TabState = 'accommodation' | 'experience';
 
@@ -11,6 +12,14 @@ const Search = () => {
   const handleTab = (tab: TabState) => {
     setTab(tab);
   };
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const res = await axios('/api/search');
+      console.log(res);
+    };
+    fetchData();
+  });
 
   return (
     <div>

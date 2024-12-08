@@ -63,6 +63,14 @@ export default {
         header: 'var(--header-height)',
       },
     },
+    screens: {
+      sm: '640px',
+      md: '800px',
+      lg: '1024px',
+      xl: '1280px',
+      '2xl': '1536px',
+      searchbar: '880px',
+    },
   },
   plugins: [require('tailwindcss-animate')],
 } satisfies Config;
