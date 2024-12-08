@@ -1,8 +1,4 @@
-import { CategoryItem } from '@/types/category';
-
-interface GetResponse {
-  data: CategoryItem[];
-}
+import { CategoryItem, CategoryListResponse } from '@/types/category';
 
 export async function GET(): Promise<Response> {
   const data: CategoryItem[] = [
@@ -43,7 +39,11 @@ export async function GET(): Promise<Response> {
     },
   ];
 
-  const body: GetResponse = { data };
+  const body: CategoryListResponse = {
+    data: {
+      categories: data,
+    },
+  };
 
   return Response.json(body);
 }

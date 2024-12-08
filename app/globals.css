@@ -71,4 +71,8 @@ body {
   body {
     @apply bg-background text-foreground;
   }
+
+  li {
+    @apply list-none;
+  }
 }

@@ -5,5 +5,7 @@ export interface CategoryItem {
 }
 
 export interface CategoryListResponse {
-  data: CategoryItem[];
+  data: {
+    categories: CategoryItem[];
+  };
 }
