@@ -20,7 +20,7 @@ const Category = ({ category }: CategoryProps) => {
   return (
     <li
       className={cn(
-        'text text-lg font-semibold hover:text-blue-500',
+        'text flex-shrink-0 text-lg font-semibold hover:text-blue-500',
         activeCategory
       )}
     >

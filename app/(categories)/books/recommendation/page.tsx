@@ -1,5 +1,28 @@
 const RecommendationPage = () => {
-  return <div>Recommendation Page</div>;
+  return (
+    <div>
+      <div className="text-4xl">Recommendation Page</div>
+      <div className="text-4xl">Recommendation Page</div>
+      <div className="text-4xl">Recommendation Page</div>
+      <div className="text-4xl">Recommendation Page</div>
+      <div className="text-4xl">Recommendation Page</div>
+      <div className="text-4xl">Recommendation Page</div>
+      <div className="text-4xl">Recommendation Page</div>
+      <div className="text-4xl">Recommendation Page</div>
+      <div className="text-4xl">Recommendation Page</div>
+      <div className="text-4xl">Recommendation Page</div>
+      <div className="text-4xl">Recommendation Page</div>
+      <div className="text-4xl">Recommendation Page</div>
+      <div className="text-4xl">Recommendation Page</div>
+      <div className="text-4xl">Recommendation Page</div>
+      <div className="text-4xl">Recommendation Page</div>
+      <div className="text-4xl">Recommendation Page</div>
+      <div className="text-4xl">Recommendation Page</div>
+      <div className="text-4xl">Recommendation Page</div>
+      <div className="text-4xl">Recommendation Page</div>
+      <div className="text-4xl">Recommendation Page</div>
+    </div>
+  );
 };
 
 export default RecommendationPage;
