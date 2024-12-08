@@ -1,9 +1,10 @@
 import { HeroCarousel } from '@/components/carousel';
+import { carouselData } from '../constant';
 
 const Recommendation = async () => {
   return (
     <div>
-      <HeroCarousel />
+      <HeroCarousel list={carouselData} />
     </div>
   );
 };

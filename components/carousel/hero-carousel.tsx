@@ -10,10 +10,19 @@ import {
   CarouselNext,
   CarouselPrevious,
 } from '@/components/ui/carousel';
+import { carouselData } from '@/features/recomendation/constant';
 import { cn } from '@/lib/utils';
+import Image from 'next/image';
+import Link from 'next/link';
 import { useEffect, useRef, useState } from 'react';
 
-export default function CarouselPlugin() {
+type CarouselItem = (typeof carouselData)[number];
+
+interface HeroCarouselProps {
+  list: CarouselItem[];
+}
+
+export default function HeroCarousel({ list }: HeroCarouselProps) {
   const plugin = useRef(Autoplay({ delay: 3000, stopOnInteraction: true }));
 
   const [api, setApi] = useState<CarouselApi>();
@@ -43,19 +52,39 @@ export default function CarouselPlugin() {
         onMouseLeave={plugin.current.reset}
       >
         <CarouselContent>
-          {Array.from({ length: 5 }).map((_, index) => (
+          {list.map((item, index) => (
             <CarouselItem key={index}>
-              <div
-                className={cn('relative h-[400px] rounded-xl bg-[gold] p-1')}
-              >
-                <div className="absolute bottom-8 right-12 py-2 text-center">
-                  <div className="flex items-center gap-1 rounded-full bg-gray-950/10 px-4 py-1 font-semibold">
-                    <span className="text-white">{current}</span>
-                    <span className="text-gray-100">/</span>
-                    <span className="text-gray-100">{count}</span>
+              <Link href={'/event'}>
+                <div
+                  className={cn(
+                    'relative h-[400px] cursor-pointer rounded-xl p-1'
+                  )}
+                >
+                  <Image
+                    className="object-cover"
+                    src={item.imageSrc}
+                    alt={'hero-icons'}
+                    fill
+                  />
+                  <div className="absolute bottom-0 w-full">
+                    <div className="flex h-52 w-full items-end justify-between bg-gray-950/5 px-4 pb-10">
+                      <div className="max-w-full text-white md:max-w-80">
+                        <div>
+                          <h2 className="text-xl font-semibold md:text-3xl">
+                            {item.title}
+                          </h2>
+                          <p className="mt-2 text-lg">{item.description}</p>
+                        </div>
+                      </div>
+                      <div className="flex items-center gap-1 rounded-full bg-gray-950/10 px-4 py-1 font-semibold">
+                        <span className="text-lg text-white">{current}</span>
+                        <span className="text-gray-200">/</span>
+                        <span className="text-gray-200">{count}</span>
+                      </div>
+                    </div>
                   </div>
                 </div>
-              </div>
+              </Link>
             </CarouselItem>
           ))}
         </CarouselContent>
