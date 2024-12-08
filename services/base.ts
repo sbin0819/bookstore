@@ -1,7 +1,10 @@
 import axios, { AxiosInstance, AxiosRequestConfig, AxiosResponse } from 'axios';
 
 export const OPEN_API_URL = 'https://openapi.naver.com/v1/search';
-export const BASE_API_URL = 'http://localhost:3000/api';
+export const BASE_API_URL =
+  process.env.NEXT_PUBLIC_ENV === 'production'
+    ? 'https://bookstore-mu-blond.vercel.app/api'
+    : 'http://localhost:3000/api';
 
 class OpenApiInstance {
   private axios: AxiosInstance;
