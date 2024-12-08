@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import localFont from 'next/font/local';
 import './globals.css';
+import Header from '@/components/header';
 
 const pretendard = localFont({
   src: './fonts/PretendardVariable.woff2',
@@ -21,8 +22,11 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${pretendard.variable} ${pretendard.className}`}>
-        {children}
+      <body
+        className={`${pretendard.variable} ${pretendard.className} mx-auto max-w-screen-xl`}
+      >
+        <Header />
+        <div className="px-4">{children}</div>
       </body>
     </html>
   );
