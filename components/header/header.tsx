@@ -1,7 +1,9 @@
+import { Suspense } from 'react';
 import Categories from './categories';
 import Logo from './logo';
 import Menu from './menu';
 import Searchbar from './searchbar';
+import Loading from './categories/loading';
 
 const Header = () => {
   return (
@@ -11,7 +13,9 @@ const Header = () => {
         <Searchbar />
         <Menu />
       </nav>
-      <Categories />
+      <Suspense fallback={<Loading />}>
+        <Categories />
+      </Suspense>
     </header>
   );
 };
