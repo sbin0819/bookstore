@@ -14,13 +14,13 @@ const Category = ({ category }: CategoryProps) => {
   const isActive = pathname.includes(category.slug);
 
   const activeCategory = isActive
-    ? 'bg-blue-500 text-white py-2 px-4 rounded-full hover:text-white'
+    ? 'bg-blue-500 text-white rounded-full hover:text-white'
     : '';
 
   return (
     <li
       className={cn(
-        'text text-lg font-semibold hover:text-blue-500',
+        'text flex-shrink-0 px-4 py-2 text-lg font-semibold hover:text-blue-500',
         activeCategory
       )}
     >

@@ -1,0 +1,111 @@
+export const carouselData = [
+  {
+    imageSrc: '/images/hero-carousel/c1.jpg',
+    title: '최신 베스트셀러: "마법사의 제자"',
+    description: '환상적인 모험이 가득한 마법사의 세계로 초대합니다.',
+    tag: ['new', 'sale'],
+  },
+  {
+    imageSrc: '/images/hero-carousel/c2.jpg',
+    title: '고전 명작: "오만과 편견"',
+    description:
+      '제인 오스틴의 걸작, 오해와 사랑에 대한 이야기를 다시 만나보세요.',
+    tag: ['세트'],
+  },
+  {
+    imageSrc: '/images/hero-carousel/c3.jpg',
+    title: '과학의 이해: "우주의 모든 것"',
+    description: '우주의 신비를 쉽고 재미있게 풀어낸 과학서적입니다.',
+    tag: ['new'],
+  },
+  {
+    imageSrc: '/images/hero-carousel/c4.jpg',
+    title: '자기계발서: "성공을 향한 첫걸음"',
+    description: '성공적인 삶을 위한 실용적인 조언들이 가득합니다.',
+    tag: ['sale'],
+  },
+  {
+    imageSrc: '/images/hero-carousel/c5.jpg',
+    title: '역사 탐방: "고대 문명의 비밀"',
+    description: '고대 문명의 신비를 탐구하는 흥미진진한 역사서입니다.',
+    tag: ['대여'],
+  },
+  {
+    imageSrc: '/images/hero-carousel/c6.jpg',
+    title: '소설: "비밀의 정원"',
+    description: '숨겨진 정원을 배경으로 펼쳐지는 로맨스 소설입니다.',
+    tag: ['new', '세트'],
+  },
+  {
+    imageSrc: '/images/hero-carousel/c7.jpg',
+    title: '비즈니스 가이드: "스타트업 성공 전략"',
+    description: '스타트업을 위한 필수 전략과 팁을 담은 비즈니스 책.',
+    tag: ['sale'],
+  },
+  {
+    imageSrc: '/images/hero-carousel/c8.jpg',
+    title: '건강과 웰빙: "건강한 삶을 위한 습관"',
+    description: '건강한 삶을 유지하기 위한 실용적인 습관들을 소개합니다.',
+    tag: ['대여'],
+  },
+  {
+    imageSrc: '/images/hero-carousel/c9.jpg',
+    title: '여행 가이드: "세계 일주 여행기"',
+    description: '세계 곳곳을 여행하며 겪은 생생한 이야기를 담은 책.',
+    tag: ['new'],
+  },
+  {
+    imageSrc: '/images/hero-carousel/c10.webp',
+    title: '미스터리 소설: "어둠 속의 진실"',
+    description: '복잡한 미스터리를 풀어나가는 긴장감 넘치는 소설.',
+    tag: ['sale', '세트'],
+  },
+  {
+    imageSrc: '/images/hero-carousel/c11.png',
+    title: '요리책: "홈메이드 디저트 레시피"',
+    description: '집에서 쉽게 만들 수 있는 다양한 디저트 레시피를 소개합니다.',
+    tag: ['대여'],
+  },
+  {
+    imageSrc: '/images/hero-carousel/c12.jpg',
+    title: '예술과 창의성: "창의적인 사고 방식"',
+    description: '창의력을 키우는 다양한 방법과 사고 방식을 탐구합니다.',
+    tag: ['new'],
+  },
+  {
+    imageSrc: '/images/hero-carousel/c13.webp',
+    title: '자연 과학: "생명의 신비"',
+    description: '생명의 기원과 진화에 대한 심도 있는 탐구를 담은 책.',
+    tag: ['세트'],
+  },
+  {
+    imageSrc: '/images/hero-carousel/c14.jpg',
+    title: '철학 입문: "삶과 존재에 대한 질문"',
+    description: '삶의 의미와 존재에 대한 철학적 질문들을 다룹니다.',
+    tag: ['sale'],
+  },
+  {
+    imageSrc: '/images/hero-carousel/c15.jpg',
+    title: '어린이 도서: "모험을 떠나는 토끼"',
+    description: '어린이들을 위한 재미있고 교육적인 동화책.',
+    tag: ['new', '대여'],
+  },
+  {
+    imageSrc: '/images/hero-carousel/c16.webp',
+    title: '심리학: "인간 행동의 이해"',
+    description: '인간 행동의 근본 원인을 분석한 심리학 서적.',
+    tag: ['세트'],
+  },
+  {
+    imageSrc: '/images/hero-carousel/c17.jpg',
+    title: '건축과 디자인: "미래의 도시"',
+    description: '미래 도시의 건축과 디자인에 대한 혁신적인 아이디어.',
+    tag: ['new'],
+  },
+  {
+    imageSrc: '/images/hero-carousel/c18.webp',
+    title: '음악 이론: "기초에서 심화까지"',
+    description: '음악 이론의 기초부터 심화까지 체계적으로 정리한 책.',
+    tag: ['sale', '대여'],
+  },
+];

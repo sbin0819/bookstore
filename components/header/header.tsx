@@ -1,21 +1,17 @@
-import { Suspense } from 'react';
-import Categories from './categories';
+import BottomNav from './bottom-nav';
 import Logo from './logo';
 import Menu from './menu';
 import Searchbar from './searchbar';
-import Loading from './categories/loading';
 
 const Header = () => {
   return (
-    <header className="sticky top-0 z-10 border-b px-4">
-      <nav className="grid grid-cols-[1fr_auto] items-center justify-between gap-x-2 pb-2 pt-4 md:grid-cols-[1fr_auto_auto]">
+    <header className="border-b bg-white px-4">
+      <nav className="grid grid-cols-[1fr_auto] items-center justify-between gap-x-2 pb-2 pt-4 md:grid-cols-[1fr_auto_auto] md:pt-7">
         <Logo />
         <Searchbar />
         <Menu />
       </nav>
-      <Suspense fallback={<Loading />}>
-        <Categories />
-      </Suspense>
+      <BottomNav />
     </header>
   );
 };

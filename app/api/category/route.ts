@@ -5,12 +5,12 @@ export async function GET(): Promise<Response> {
     {
       id: '1',
       name: '추천',
-      slug: 'view-category-100',
+      slug: 'recommendation',
     },
     {
       id: '2',
       name: '기획전',
-      slug: 'view-category-200',
+      slug: 'event',
     },
     {
       id: '3',

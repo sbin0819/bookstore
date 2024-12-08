@@ -6,7 +6,7 @@ export function middleware(request: NextRequest) {
 
   if (pathname === '/') {
     const url = request.nextUrl.clone();
-    url.pathname = '/books/view-category-100';
+    url.pathname = '/books/recommendation';
     return NextResponse.redirect(url);
   }
 
