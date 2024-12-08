@@ -1,11 +1,7 @@
-import { HeroCarousel } from '@/components/carousel';
+import Recommendation from '@/features/recomendation/components/recomendation';
 
 const RecommendationPage = () => {
-  return (
-    <div>
-      <HeroCarousel />
-    </div>
-  );
+  return <Recommendation />;
 };
 
 export default RecommendationPage;
