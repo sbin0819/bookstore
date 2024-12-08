@@ -1,18 +1,27 @@
+'use client';
+
 import { getCategories } from '@/services/category';
-import { Fragment } from 'react';
+import { Fragment, useEffect, useState } from 'react';
 import Category from './category';
+import { notFound } from 'next/navigation';
+import { CategoryItem } from '@/types/category';
 
-const fetchData = async () => {
-  const res = await getCategories();
-  return res.data;
-};
+const Categories = () => {
+  const [categories, setCategories] = useState<CategoryItem[]>([]);
 
-const Categories = async () => {
-  const categories = await fetchData();
+  useEffect(() => {
+    getCategories().then((res) => {
+      if (res.data.categories.length === 0) {
+        notFound();
+      }
+
+      setCategories(res.data.categories);
+    });
+  }, []);
 
   return (
     <ul className="flex items-center gap-4 py-4">
-      {categories.categories.map((category) => (
+      {categories.map((category) => (
         <Fragment key={category.id}>
           <Category category={category} />
         </Fragment>
