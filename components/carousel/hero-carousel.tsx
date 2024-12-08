@@ -54,7 +54,7 @@ export default function HeroCarousel({ list }: HeroCarouselProps) {
         <CarouselContent>
           {list.map((item, index) => (
             <CarouselItem key={index}>
-              <Link href={'/event'}>
+              <Link href={'/events'}>
                 <div
                   className={cn(
                     'relative h-[400px] cursor-pointer rounded-xl p-1'

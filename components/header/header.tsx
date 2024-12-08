@@ -1,4 +1,4 @@
-import Categories from './categories';
+import BottomNav from './bottom-nav';
 import Logo from './logo';
 import Menu from './menu';
 import Searchbar from './searchbar';
@@ -11,7 +11,7 @@ const Header = () => {
         <Searchbar />
         <Menu />
       </nav>
-      <Categories />
+      <BottomNav />
     </header>
   );
 };
