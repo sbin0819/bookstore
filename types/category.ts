@@ -4,8 +4,4 @@ export interface CategoryItem {
   slug: string;
 }
 
-export interface CategoryListResponse {
-  data: {
-    categories: CategoryItem[];
-  };
-}
+export type CategoryListResponse = CategoryItem[];
