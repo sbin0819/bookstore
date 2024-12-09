@@ -63,6 +63,10 @@ export default {
       spacing: {
         header: 'var(--header-height)',
       },
+      aspectRatio: {
+        '4/3': '4 / 3',
+        '3/4': '3 / 4',
+      },
     },
     screens: {
       sm: '640px',
@@ -73,5 +77,5 @@ export default {
       searchbar: '880px',
     },
   },
-  plugins: [require('tailwindcss-animate')],
+  plugins: [require('tailwindcss-animate'), require('@tailwindcss/line-clamp')],
 } satisfies Config;

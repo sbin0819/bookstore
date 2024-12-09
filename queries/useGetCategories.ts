@@ -3,7 +3,7 @@ import { useQuery } from '@tanstack/react-query';
 
 export function useGetCategories() {
   const { data, ...result } = useQuery({
-    queryKey: ['getChannel'],
+    queryKey: ['getCategories'],
     queryFn: () => getCategories().then((res) => res.data),
   });
 
