@@ -57,7 +57,7 @@ export default function HeroCarousel({ list }: HeroCarouselProps) {
               <Link href={'/events'}>
                 <div
                   className={cn(
-                    'relative h-[400px] cursor-pointer rounded-xl p-1'
+                    'relative h-[380px] cursor-pointer rounded-xl p-1'
                   )}
                 >
                   <Image
