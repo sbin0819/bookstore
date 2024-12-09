@@ -1,14 +1,9 @@
-'use client';
-
 import { cn } from '@/lib/utils';
-import { useGetCategories } from '@/queries/useGetCategories';
+import { getCategories } from '@/services/category';
 import Category from './category';
-import Loading from './loading';
 
-const Categories = () => {
-  const { data, isLoading } = useGetCategories();
-
-  if (isLoading || !data) return <Loading />;
+const Categories = async () => {
+  const data = await getCategories();
 
   return (
     <ul
@@ -16,7 +11,7 @@ const Categories = () => {
         'flex items-center overflow-auto py-4 [&::-webkit-scrollbar]:hidden'
       )}
     >
-      {data.categories.map((category) => (
+      {data.map((category) => (
         <Category key={category.id} category={category} />
       ))}
     </ul>
