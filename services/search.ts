@@ -3,5 +3,13 @@ import { baseApiInstance } from './base';
 
 const apiPrefix = '/search';
 
-export const getSearch = () =>
-  baseApiInstance.get<BookListResponse>(`${apiPrefix}?query=javascript`);
+interface SearchQueryParams {
+  query: string;
+  display?: number;
+  start?: number;
+}
+
+export const getSearch = (query: SearchQueryParams) =>
+  baseApiInstance.get<BookListResponse>(`${apiPrefix}`, {
+    params: query,
+  });

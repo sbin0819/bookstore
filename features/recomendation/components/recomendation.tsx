@@ -6,7 +6,11 @@ import { Suspense } from 'react';
 import { carouselData } from '../constant';
 
 const Recommendation = async () => {
-  const data = await getSearch();
+  const data = await getSearch({
+    query: '자바스크립트',
+    display: 30,
+  });
+
   return (
     <div>
       <HeroCarousel list={carouselData} />
