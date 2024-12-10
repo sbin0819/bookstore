@@ -1,2 +1,2 @@
-export { default as Book } from './book';
+export { default as BookItem } from './book-item';
 export { default as BookList } from './book-list';

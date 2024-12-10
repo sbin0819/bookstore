@@ -1,4 +1,4 @@
-export interface BookItem {
+export interface BookType {
   title: string;
   link: string;
   image: string;
@@ -15,5 +15,5 @@ export interface BookListResponse {
   total: number;
   start: number;
   display: number;
-  items: BookItem[];
+  items: BookType[];
 }
