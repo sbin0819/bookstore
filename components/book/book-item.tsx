@@ -23,7 +23,9 @@ const BookItem = ({ book }: Props) => {
       </Link>
       <div>
         <h2 className="line-clamp-2 pb-1">{book.title}</h2>
-        <p className="text-sm text-gray-500">{book.author}</p>
+        <p className="line-clamp-2 text-sm text-gray-500">
+          {book.author.replace('^', ', ')}
+        </p>
       </div>
     </div>
   );

@@ -11,8 +11,6 @@ class OpenApiInstance {
       baseURL: OPEN_API_URL,
       timeout: 1000 * 10,
       headers: {
-        'Content-Type': 'application/json',
-        'Access-Control-Allow-Origin': '*',
         'X-Naver-Client-Id': process.env.NEXT_PUBLIC_NAVER_CLIENT_ID!,
         'X-Naver-Client-Secret': process.env.NEXT_PUBLIC_NAVER_CLIENT_SECRET!,
       },
