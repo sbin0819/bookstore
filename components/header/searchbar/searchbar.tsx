@@ -18,7 +18,11 @@ const Searchbar = () => {
   const [selectedIndex, setSelectedIndex] = useState(-1);
 
   const debouncedSearch = useDebounce(search, 100);
-  const { data } = useGetSearch({ query: debouncedSearch, display: 5 });
+  const { data } = useGetSearch({
+    query: debouncedSearch,
+    display: 5,
+    enabled: isFocused && debouncedSearch !== '',
+  });
   const items = data?.items || [];
 
   const inputRef = useRef<HTMLInputElement>(null);
