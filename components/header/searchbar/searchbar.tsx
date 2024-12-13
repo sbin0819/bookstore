@@ -8,6 +8,7 @@ import {
   ChangeEvent,
   FormEvent,
   KeyboardEvent,
+  useDeferredValue,
   useEffect,
   useRef,
   useState,
@@ -30,7 +31,8 @@ const Searchbar = () => {
     display: 5,
     enabled: isFocused && debouncedSearch !== '',
   });
-  const items = data?.items || [];
+
+  const items = useDeferredValue(data?.items || []);
 
   const inputRef = useRef<HTMLInputElement>(null);
 
