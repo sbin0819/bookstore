@@ -4,7 +4,14 @@ import { useDebounce } from '@/hooks/useDebounce';
 import { useGetSearch } from '@/queries/useGetSearch';
 import { BookType } from '@/types/book';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
-import { FormEvent, KeyboardEvent, useEffect, useRef, useState } from 'react';
+import {
+  ChangeEvent,
+  FormEvent,
+  KeyboardEvent,
+  useEffect,
+  useRef,
+  useState,
+} from 'react';
 import { AiFillCloseCircle } from 'react-icons/ai';
 import { HiOutlineMagnifyingGlass } from 'react-icons/hi2';
 import SearchResultBox from './search-result-box';
@@ -35,6 +42,10 @@ const Searchbar = () => {
       setSearch('');
     }
   }, [pathname, searchParams]);
+
+  const handleOnChange = (e: ChangeEvent<HTMLInputElement>) => {
+    setSearch(e.target.value);
+  };
 
   const handleReset = () => {
     setSearch('');
@@ -102,7 +113,7 @@ const Searchbar = () => {
         type="text"
         className="h-8 w-full border-transparent bg-slate-100 focus:border-transparent focus:outline-none focus:ring-0"
         value={search}
-        onChange={(e) => setSearch(e.target.value)}
+        onChange={handleOnChange}
         onFocus={handleFocus}
         onBlur={handleBlur}
         onKeyDown={handleKeyDown}
