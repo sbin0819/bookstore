@@ -62,11 +62,12 @@ const Searchbar = () => {
 
   const handleFocus = () => {
     setIsFocused(true);
-    setSelectedIndex(-1); // 포커스 되면 선택 인덱스 초기화
+    setSelectedIndex(-1);
   };
 
   const handleBlur = () => {
     setTimeout(() => {
+      setSelectedIndex(-1);
       setIsFocused(false);
     }, 200);
   };
