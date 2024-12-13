@@ -5,15 +5,17 @@ export function useGetSearch({
   query,
   display = 10,
   start = 1,
+  enabled,
 }: {
   query: string;
   display?: number;
   start?: number;
+  enabled?: boolean;
 }) {
   const { data, ...result } = useQuery({
     queryKey: ['getSearch', { query, display, start }],
     queryFn: () => getSearch({ query, display, start }).then((res) => res),
-    enabled: query.trim() !== '',
+    enabled,
   });
 
   return { data, ...result };

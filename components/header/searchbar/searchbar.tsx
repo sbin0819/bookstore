@@ -4,7 +4,15 @@ import { useDebounce } from '@/hooks/useDebounce';
 import { useGetSearch } from '@/queries/useGetSearch';
 import { BookType } from '@/types/book';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
-import { FormEvent, KeyboardEvent, useEffect, useRef, useState } from 'react';
+import {
+  ChangeEvent,
+  FormEvent,
+  KeyboardEvent,
+  useDeferredValue,
+  useEffect,
+  useRef,
+  useState,
+} from 'react';
 import { AiFillCloseCircle } from 'react-icons/ai';
 import { HiOutlineMagnifyingGlass } from 'react-icons/hi2';
 import SearchResultBox from './search-result-box';
@@ -18,8 +26,13 @@ const Searchbar = () => {
   const [selectedIndex, setSelectedIndex] = useState(-1);
 
   const debouncedSearch = useDebounce(search, 100);
-  const { data } = useGetSearch({ query: debouncedSearch, display: 5 });
-  const items = data?.items || [];
+  const { data } = useGetSearch({
+    query: debouncedSearch,
+    display: 5,
+    enabled: isFocused && debouncedSearch !== '',
+  });
+
+  const items = useDeferredValue(data?.items || []);
 
   const inputRef = useRef<HTMLInputElement>(null);
 
@@ -31,6 +44,10 @@ const Searchbar = () => {
       setSearch('');
     }
   }, [pathname, searchParams]);
+
+  const handleOnChange = (e: ChangeEvent<HTMLInputElement>) => {
+    setSearch(e.target.value);
+  };
 
   const handleReset = () => {
     setSearch('');
@@ -45,11 +62,12 @@ const Searchbar = () => {
 
   const handleFocus = () => {
     setIsFocused(true);
-    setSelectedIndex(-1); // 포커스 되면 선택 인덱스 초기화
+    setSelectedIndex(-1);
   };
 
   const handleBlur = () => {
     setTimeout(() => {
+      setSelectedIndex(-1);
       setIsFocused(false);
     }, 200);
   };
@@ -98,7 +116,7 @@ const Searchbar = () => {
         type="text"
         className="h-8 w-full border-transparent bg-slate-100 focus:border-transparent focus:outline-none focus:ring-0"
         value={search}
-        onChange={(e) => setSearch(e.target.value)}
+        onChange={handleOnChange}
         onFocus={handleFocus}
         onBlur={handleBlur}
         onKeyDown={handleKeyDown}
