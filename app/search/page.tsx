@@ -1,15 +1,24 @@
-'use client';
+import BookDetail from '@/features/book-detail';
+import { getSearch } from '@/services/search';
 
-import { useSearchParams } from 'next/navigation';
-
-const SearchPage = () => {
-  const searchParams = useSearchParams();
-  const query = searchParams.get('q') || '';
+const SearchPage = async ({
+  searchParams,
+}: {
+  searchParams: Promise<{ q: string }>;
+}) => {
+  const query = (await searchParams).q;
+  const book = await getSearch({
+    query: query,
+    display: 1,
+  }).then((res) => res.items[0]);
 
   return (
-    <div>
-      <h1>{query}</h1>
-    </div>
+    <>
+      {!book && (
+        <div className="py-8 text-xl text-gray-500">검색 결과가 없습니다.</div>
+      )}
+      {book && <BookDetail isbn={book.isbn} />}
+    </>
   );
 };
 
