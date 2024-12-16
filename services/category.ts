@@ -4,4 +4,4 @@ import { baseApiInstance } from './base';
 const apiPrefix = '/categories';
 
 export const getCategories = () =>
-  baseApiInstance.get<CategoryListResponse>(apiPrefix);
+  baseApiInstance.get<CategoryListResponse>(`${apiPrefix}`, {});

@@ -8,7 +8,7 @@ const SearchPage = async ({
 }) => {
   const query = (await searchParams).q;
   const book = await getSearch({
-    query: query,
+    query,
     display: 1,
   }).then((res) => res.items[0]);
 

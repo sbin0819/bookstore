@@ -2,7 +2,9 @@ import axios, { AxiosInstance, AxiosRequestConfig, AxiosResponse } from 'axios';
 
 export const OPEN_API_URL = 'https://openapi.naver.com/v1/search';
 export const BASE_API_URL =
-  'https://bookstore-server-production-d010.up.railway.app';
+  process.env.APP_ENV === 'production'
+    ? 'https://bookstore-server-production-d010.up.railway.app'
+    : 'http://localhost:4000';
 
 class OpenApiInstance {
   private axios: AxiosInstance;
