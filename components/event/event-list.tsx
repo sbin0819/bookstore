@@ -3,46 +3,37 @@
 'use client';
 
 import { useGetEvents } from '@/queries/useGetEvents';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import EventCard from './event-card';
 import EventListSkeleton from './event-list-skeleton';
 import EventPagination from './event-pagination';
 
 const EventList = () => {
-  const [page, setPage] = useState(1);
-  const { data, isLoading, isError, refetch } = useGetEvents({
-    page,
+  const [currentPage, setCurrentPage] = useState(1);
+  const { data, isLoading } = useGetEvents({
+    page: currentPage,
   });
 
   const totalPages = data?.totalPages || 0;
 
   const handlePageChange = (pageNumber: number) => {
-    setPage(pageNumber);
-  };
-
-  useEffect(() => {
     window.scrollTo({
       top: 0,
-      behavior: 'smooth', // 'instant' 대신 'smooth'로 변경하여 부드러운 스크롤 애니메이션 적용
+      behavior: 'instant',
     });
-  }, [page]);
+    setCurrentPage(pageNumber);
+  };
+
+  const handlePrevPage = () => {
+    setCurrentPage((prevPage) => Math.max(prevPage - 1, 1));
+  };
+
+  const handleNextPage = () => {
+    setCurrentPage((prevPage) => Math.min(prevPage + 1, totalPages));
+  };
 
   if (isLoading) {
     return <EventListSkeleton />;
-  }
-
-  if (isError) {
-    return (
-      <div className="text-center text-red-500">
-        <p>Error fetching events. Please try again later.</p>
-        <button
-          onClick={() => refetch()}
-          className="mt-4 rounded bg-red-500 px-4 py-2 text-white hover:bg-red-600"
-        >
-          Retry
-        </button>
-      </div>
-    );
   }
 
   return (
@@ -52,9 +43,11 @@ const EventList = () => {
           data.data.map((item) => <EventCard key={item.id} event={item} />)}
       </div>
       <EventPagination
-        currentPage={page}
+        currentPage={currentPage}
         totalPages={totalPages}
         onPageChange={handlePageChange}
+        onPrevPage={handlePrevPage}
+        onNextPage={handleNextPage}
       />
     </div>
   );
