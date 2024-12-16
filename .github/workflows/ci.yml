@@ -30,4 +30,6 @@ jobs:
         run: pnpm install
 
       - name: 빌드 실행
+        env:
+          APP_ENV: production
         run: pnpm build
