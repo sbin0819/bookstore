@@ -1,48 +1,64 @@
+// services/base.ts
 import axios, { AxiosInstance, AxiosRequestConfig, AxiosResponse } from 'axios';
 
-export const OPEN_API_URL = 'https://openapi.naver.com/v1/search';
 export const BASE_API_URL =
   process.env.NEXT_PUBLIC_ENV === 'production'
     ? 'https://bookstore-server-production-d010.up.railway.app'
     : 'http://localhost:4000';
 
-class OpenApiInstance {
-  private axios: AxiosInstance;
-
-  constructor() {
-    this.axios = axios.create({
-      baseURL: OPEN_API_URL,
-      timeout: 1000 * 10,
-      headers: {
-        'X-Naver-Client-Id': process.env.NEXT_PUBLIC_NAVER_CLIENT_ID!,
-        'X-Naver-Client-Secret': process.env.NEXT_PUBLIC_NAVER_CLIENT_SECRET!,
-      },
-      withCredentials: true,
-    });
-  }
-
-  async get<T>(endpoint: string, options: AxiosRequestConfig = {}): Promise<T> {
-    const response: AxiosResponse<T> = await this.axios.get(endpoint, options);
-    return response.data;
-  }
-}
-
 class BaseApiInstance {
-  private axios: AxiosInstance;
+  private axiosInstance: AxiosInstance;
+  private token: string | null = null;
 
   constructor() {
-    this.axios = axios.create({
+    this.axiosInstance = axios.create({
       baseURL: BASE_API_URL,
       timeout: 1000 * 10,
       headers: {
         'Content-Type': 'application/json',
       },
-      withCredentials: true,
+      withCredentials: true, // Not needed since we're using Authorization header
     });
+
+    // Interceptor to include Authorization header
+    this.axiosInstance.interceptors.request.use(
+      (config) => {
+        if (this.token) {
+          config.headers = config.headers || {};
+          config.headers['Authorization'] = `Bearer ${this.token}`;
+        }
+        return config;
+      },
+      (error) => Promise.reject(error)
+    );
+
+    // Optional: Handle responses globally (e.g., token refresh on 401)
+    this.axiosInstance.interceptors.response.use(
+      (response: AxiosResponse) => response,
+      async (error) => {
+        // Handle token refresh logic here if needed
+        return Promise.reject(error);
+      }
+    );
+  }
+
+  // Method to set the token manually (optional)
+  setToken(token: string) {
+    this.token = token;
+    localStorage.setItem('access_token', token);
+  }
+
+  // Method to clear the token (e.g., on logout)
+  clearToken() {
+    this.token = null;
+    localStorage.removeItem('access_token');
   }
 
   async get<T>(endpoint: string, options: AxiosRequestConfig = {}): Promise<T> {
-    const response: AxiosResponse<T> = await this.axios.get(endpoint, options);
+    const response: AxiosResponse<T> = await this.axiosInstance.get(
+      endpoint,
+      options
+    );
     return response.data;
   }
 
@@ -51,7 +67,7 @@ class BaseApiInstance {
     data?: U,
     options: AxiosRequestConfig = {}
   ): Promise<T> {
-    const response: AxiosResponse<T> = await this.axios.post(
+    const response: AxiosResponse<T> = await this.axiosInstance.post(
       endpoint,
       data,
       options
@@ -64,7 +80,7 @@ class BaseApiInstance {
     data?: U,
     options: AxiosRequestConfig = {}
   ): Promise<T> {
-    const response: AxiosResponse<T> = await this.axios.put(
+    const response: AxiosResponse<T> = await this.axiosInstance.put(
       endpoint,
       data,
       options
@@ -76,7 +92,7 @@ class BaseApiInstance {
     endpoint: string,
     options: AxiosRequestConfig = {}
   ): Promise<T> {
-    const response: AxiosResponse<T> = await this.axios.delete(
+    const response: AxiosResponse<T> = await this.axiosInstance.delete(
       endpoint,
       options
     );
@@ -85,4 +101,3 @@ class BaseApiInstance {
 }
 
 export const baseApiInstance = new BaseApiInstance();
-export const openApiInstance = new OpenApiInstance();
