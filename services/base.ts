@@ -104,7 +104,7 @@ class BaseApiInstance {
             // If refresh fails, clear the access token and redirect to login
             this.refreshSubscribers = [];
             this.clearAccessToken();
-            window.location.href = '/login'; // Adjust the path as needed
+            window.location.href = '/signin'; // Adjust the path as needed
             return Promise.reject(refreshError);
           } finally {
             this.isRefreshing = false;
