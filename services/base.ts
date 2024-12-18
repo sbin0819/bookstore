@@ -18,10 +18,6 @@ class BaseApiInstance {
 
   constructor() {
     // 초기화 시 로컬 스토리지에서 access_token 가져오기
-    if (typeof window !== 'undefined') {
-      // 클라이언트 환경에서만 localStorage 접근
-      this.accessToken = localStorage.getItem('access_token');
-    }
 
     this.axiosInstance = axios.create({
       baseURL: BASE_API_URL,
@@ -95,13 +91,11 @@ class BaseApiInstance {
   // Method to set the access token
   setAccessToken(token: string) {
     this.accessToken = token;
-    localStorage.setItem('access_token', token);
   }
 
   // Method to clear the access token
   clearAccessToken() {
     this.accessToken = null;
-    localStorage.removeItem('access_token');
   }
 
   // HTTP GET method
