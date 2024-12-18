@@ -1,9 +1,7 @@
-import GoogleSignIn from '@/features/auth/components/google-signin';
-
 const Page = () => {
   return (
     <div className="flex items-center justify-center">
-      <GoogleSignIn />
+      <h1 className="text-3xl font-semibold">Profile</h1>
     </div>
   );
 };

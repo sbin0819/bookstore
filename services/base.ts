@@ -14,11 +14,15 @@ export const BASE_API_URL =
 
 class BaseApiInstance {
   private axiosInstance: AxiosInstance;
-  private isRefreshing: boolean = false;
-  private refreshSubscribers: Array<(token: string) => void> = [];
   private accessToken: string | null = null;
 
   constructor() {
+    // 초기화 시 로컬 스토리지에서 access_token 가져오기
+    if (typeof window !== 'undefined') {
+      // 클라이언트 환경에서만 localStorage 접근
+      this.accessToken = localStorage.getItem('access_token');
+    }
+
     this.axiosInstance = axios.create({
       baseURL: BASE_API_URL,
       timeout: 1000 * 10,
@@ -40,7 +44,7 @@ class BaseApiInstance {
       (error) => Promise.reject(error)
     );
 
-    // Response interceptor to handle 401 errors and refresh token
+    // Response interceptor to handle 401 errors
     this.axiosInstance.interceptors.response.use(
       (response: AxiosResponse) => response,
       async (error: AxiosError) => {
@@ -51,30 +55,11 @@ class BaseApiInstance {
           return Promise.reject(error);
         }
 
-        // Check if error is 401 and request hasn't been retried yet
+        // Check if error is 401 and it's not a refresh token endpoint
         if (
           error.response?.status === 401 &&
-          !originalRequest._retry &&
           !originalRequest.url?.includes('/auth/refresh')
         ) {
-          originalRequest._retry = true;
-
-          if (this.isRefreshing) {
-            return new Promise((resolve) => {
-              this.refreshSubscribers.push((token: string) => {
-                if (originalRequest.headers) {
-                  originalRequest.headers['Authorization'] = `Bearer ${token}`;
-                } else {
-                  originalRequest.headers = {} as AxiosRequestHeaders;
-                  originalRequest.headers['Authorization'] = `Bearer ${token}`;
-                }
-                resolve(this.axiosInstance(originalRequest));
-              });
-            });
-          }
-
-          this.isRefreshing = true;
-
           try {
             // Attempt to refresh the token
             const response = await this.axiosInstance.post('/auth/refresh');
@@ -82,12 +67,6 @@ class BaseApiInstance {
 
             // Update the access token
             this.setAccessToken(newAccessToken);
-
-            // Notify all subscribers with the new token
-            this.refreshSubscribers.forEach((callback) =>
-              callback(newAccessToken)
-            );
-            this.refreshSubscribers = [];
 
             // Retry the original request with the new access token
             if (originalRequest.headers) {
@@ -101,17 +80,13 @@ class BaseApiInstance {
 
             return this.axiosInstance(originalRequest);
           } catch (refreshError) {
-            // If refresh fails, clear the access token and redirect to login
-            this.refreshSubscribers = [];
+            // If refresh fails, clear the access token and handle logout
             this.clearAccessToken();
-            window.location.href = '/signin'; // Adjust the path as needed
             return Promise.reject(refreshError);
-          } finally {
-            this.isRefreshing = false;
           }
         }
 
-        // If the error is not 401 or the request has already been retried, reject
+        // If the error is not 401, reject without retry
         return Promise.reject(error);
       }
     );
@@ -120,7 +95,6 @@ class BaseApiInstance {
   // Method to set the access token
   setAccessToken(token: string) {
     this.accessToken = token;
-    // Optionally, store the token in localStorage for persistence (not recommended for production)
     localStorage.setItem('access_token', token);
   }
 

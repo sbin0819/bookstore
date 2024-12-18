@@ -15,14 +15,14 @@ const GoogleCallbackPage = () => {
       if (accessToken) {
         baseApiInstance.setAccessToken(accessToken);
 
-        router.replace('/signin');
+        router.replace('/');
       }
     };
 
     handleCallback();
   }, [router]);
 
-  return <div>Processing Google callback...</div>;
+  return null;
 };
 
 export default GoogleCallbackPage;
