@@ -20,3 +20,5 @@ export const signup = (data: SignupBody) =>
   baseApiInstance.post<SignupResponse>(`${apiPrefix}/signup`, {
     ...data,
   });
+
+export const logout = () => baseApiInstance.post(`${apiPrefix}/logout`);

@@ -62,7 +62,6 @@ const BookCarousel = ({ title, books }: BookCarouselProps) => {
     <div className="w-full">
       <h3 className="px-6 py-6 text-2xl font-semibold">{title}</h3>
       <div className="relative w-full px-4">
-        {/* 왼쪽 버튼 */}
         {showLeftButton && (
           <button
             onClick={() => scrollToPosition('left')}
@@ -72,7 +71,6 @@ const BookCarousel = ({ title, books }: BookCarouselProps) => {
           </button>
         )}
 
-        {/* Carousel 컨테이너 */}
         <div
           ref={carouselRef}
           className="relative flex w-full flex-nowrap items-center overflow-x-auto scroll-smooth [&::-webkit-scrollbar]:hidden"
@@ -80,7 +78,7 @@ const BookCarousel = ({ title, books }: BookCarouselProps) => {
           {books.map((book) => (
             <div
               key={book.isbn}
-              className="relative mr-2 aspect-[9/16] w-[calc((100%/5)_-_8px)] flex-shrink-0 last:mr-0"
+              className="relative mr-2 w-[calc((100%/2)_-_8px)] flex-shrink-0 last:mr-0 sm:w-[calc((100%/3)_-_8px)] md:w-[calc((100%/5)_-_8px)]"
             >
               <div className="h-full w-full">
                 <BookItem book={book} />
@@ -89,7 +87,6 @@ const BookCarousel = ({ title, books }: BookCarouselProps) => {
           ))}
         </div>
 
-        {/* 오른쪽 버튼 */}
         {showRightButton && (
           <button
             onClick={() => scrollToPosition('right')}
