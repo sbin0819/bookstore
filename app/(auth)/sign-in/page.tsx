@@ -9,25 +9,21 @@ const Page = () => {
 
   useEffect(() => {
     // Initialize token from localStorage if available
-    const storedToken = localStorage.getItem('access_token');
-    if (storedToken) {
-      baseApiInstance.setAccessToken(storedToken);
-    } else {
-      // Attempt to refresh tokens if access_token is not present
-      const initializeAuth = async () => {
-        try {
-          const res: { access_token: string } =
-            await baseApiInstance.post('/auth/refresh');
-          if (res.access_token) {
-            baseApiInstance.setAccessToken(res.access_token);
-          }
-        } catch (error) {
-          console.error('Refresh Error:', error);
-        }
-      };
 
-      initializeAuth();
-    }
+    // Attempt to refresh tokens if access_token is not present
+    const initializeAuth = async () => {
+      try {
+        const res: { access_token: string } =
+          await baseApiInstance.post('/auth/refresh');
+        if (res.access_token) {
+          baseApiInstance.setAccessToken(res.access_token);
+        }
+      } catch (error) {
+        console.error('Refresh Error:', error);
+      }
+    };
+
+    initializeAuth();
   }, []);
 
   const handleSignIn = () => {
