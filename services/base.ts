@@ -1,4 +1,4 @@
-// services/base.ts
+// src/services/base.ts
 import axios, {
   AxiosError,
   AxiosInstance,
@@ -43,10 +43,15 @@ class BaseApiInstance {
     this.axiosInstance.interceptors.response.use(
       (response: AxiosResponse) => response,
       async (error: AxiosError) => {
-        const originalRequest = error.config;
+        const originalRequest = error.config as AxiosRequestConfig | undefined;
 
+        // Guard clause to ensure originalRequest is defined
+        if (!originalRequest) {
+          return Promise.reject(error);
+        }
+
+        // Check if error is 401 and request hasn't been retried yet
         if (
-          originalRequest &&
           error.response?.status === 401 &&
           !originalRequest._retry &&
           !originalRequest.url?.includes('/auth/refresh')
@@ -54,9 +59,16 @@ class BaseApiInstance {
           originalRequest._retry = true;
 
           if (this.isRefreshing) {
+            // If token refresh is already in progress, queue the request
             return new Promise((resolve) => {
               this.refreshSubscribers.push((token: string) => {
-                originalRequest.headers['Authorization'] = `Bearer ${token}`;
+                if (originalRequest.headers) {
+                  originalRequest.headers['Authorization'] = `Bearer ${token}`;
+                } else {
+                  originalRequest.headers = {
+                    Authorization: `Bearer ${token}`,
+                  };
+                }
                 resolve(this.axiosInstance(originalRequest));
               });
             });
@@ -65,27 +77,42 @@ class BaseApiInstance {
           this.isRefreshing = true;
 
           try {
+            // Attempt to refresh the token
             const response = await this.axiosInstance.post('/auth/refresh');
             const newAccessToken = response.data.access_token;
 
+            // Update the access token
             this.setAccessToken(newAccessToken);
 
+            // Notify all subscribers with the new token
             this.refreshSubscribers.forEach((callback) =>
               callback(newAccessToken)
             );
             this.refreshSubscribers = [];
 
+            // Retry the original request with the new access token
+            if (originalRequest.headers) {
+              originalRequest.headers['Authorization'] =
+                `Bearer ${newAccessToken}`;
+            } else {
+              originalRequest.headers = {
+                Authorization: `Bearer ${newAccessToken}`,
+              };
+            }
+
             return this.axiosInstance(originalRequest);
           } catch (refreshError) {
+            // If refresh fails, clear the access token and reject
             this.refreshSubscribers = [];
-            // Optionally, redirect to login
             this.clearAccessToken();
+            // Optionally, redirect to login or notify the user
             return Promise.reject(refreshError);
           } finally {
             this.isRefreshing = false;
           }
         }
 
+        // If the error is not 401 or the request has already been retried, reject
         return Promise.reject(error);
       }
     );
@@ -101,6 +128,7 @@ class BaseApiInstance {
     this.accessToken = null;
   }
 
+  // HTTP GET method
   async get<T>(endpoint: string, options: AxiosRequestConfig = {}): Promise<T> {
     const response: AxiosResponse<T> = await this.axiosInstance.get(
       endpoint,
@@ -109,6 +137,7 @@ class BaseApiInstance {
     return response.data;
   }
 
+  // HTTP POST method
   async post<T, U = unknown>(
     endpoint: string,
     data?: U,
@@ -122,6 +151,7 @@ class BaseApiInstance {
     return response.data;
   }
 
+  // HTTP PUT method
   async put<T, U = unknown>(
     endpoint: string,
     data?: U,
@@ -135,6 +165,7 @@ class BaseApiInstance {
     return response.data;
   }
 
+  // HTTP DELETE method
   async delete<T>(
     endpoint: string,
     options: AxiosRequestConfig = {}
