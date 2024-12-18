@@ -8,7 +8,7 @@ const Page = () => {
     // Initialize token from localStorage if available
     const storedToken = localStorage.getItem('access_token');
     if (storedToken) {
-      baseApiInstance.setToken(storedToken);
+      baseApiInstance.setAccessToken(storedToken);
     }
   }, []);
 
@@ -29,7 +29,7 @@ const Page = () => {
       );
       console.log(res);
       if (res?.access_token) {
-        baseApiInstance.setToken(res.access_token);
+        baseApiInstance.setAccessToken(res.access_token);
       }
     } catch (error) {
       console.error('SignUp Error:', error);
@@ -47,7 +47,7 @@ const Page = () => {
       );
       if (res.access_token) {
         console.log(res.access_token);
-        baseApiInstance.setToken(res.access_token);
+        baseApiInstance.setAccessToken(res.access_token);
       }
     } catch (error) {
       console.error('Login Error:', error);
@@ -75,7 +75,7 @@ const Page = () => {
         }
       );
       if (res.access_token) {
-        baseApiInstance.setToken(res.access_token);
+        baseApiInstance.setAccessToken(res.access_token);
       }
     } catch (error) {
       console.error('Refresh Tokens Error:', error);

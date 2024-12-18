@@ -1,5 +1,10 @@
 // services/base.ts
-import axios, { AxiosInstance, AxiosRequestConfig, AxiosResponse } from 'axios';
+import axios, {
+  AxiosError,
+  AxiosInstance,
+  AxiosRequestConfig,
+  AxiosResponse,
+} from 'axios';
 
 export const BASE_API_URL =
   process.env.NEXT_PUBLIC_ENV === 'production'
@@ -8,7 +13,9 @@ export const BASE_API_URL =
 
 class BaseApiInstance {
   private axiosInstance: AxiosInstance;
-  private token: string | null = null;
+  private isRefreshing: boolean = false;
+  private refreshSubscribers: Array<(token: string) => void> = [];
+  private accessToken: string | null = null;
 
   constructor() {
     this.axiosInstance = axios.create({
@@ -17,41 +24,81 @@ class BaseApiInstance {
       headers: {
         'Content-Type': 'application/json',
       },
-      withCredentials: true, // Not needed since we're using Authorization header
+      withCredentials: true, // Enable sending cookies (for refresh_token)
     });
 
-    // Interceptor to include Authorization header
+    // Request interceptor to attach the access token
     this.axiosInstance.interceptors.request.use(
       (config) => {
-        if (this.token) {
-          config.headers = config.headers || {};
-          config.headers['Authorization'] = `Bearer ${this.token}`;
+        if (this.accessToken) {
+          config.headers = config.headers ?? {};
+          config.headers['Authorization'] = `Bearer ${this.accessToken}`;
         }
         return config;
       },
       (error) => Promise.reject(error)
     );
 
-    // Optional: Handle responses globally (e.g., token refresh on 401)
+    // Response interceptor to handle 401 errors and refresh token
     this.axiosInstance.interceptors.response.use(
       (response: AxiosResponse) => response,
-      async (error) => {
-        // Handle token refresh logic here if needed
+      async (error: AxiosError) => {
+        const originalRequest = error.config;
+
+        if (
+          originalRequest &&
+          error.response?.status === 401 &&
+          !originalRequest._retry &&
+          !originalRequest.url?.includes('/auth/refresh')
+        ) {
+          originalRequest._retry = true;
+
+          if (this.isRefreshing) {
+            return new Promise((resolve) => {
+              this.refreshSubscribers.push((token: string) => {
+                originalRequest.headers['Authorization'] = `Bearer ${token}`;
+                resolve(this.axiosInstance(originalRequest));
+              });
+            });
+          }
+
+          this.isRefreshing = true;
+
+          try {
+            const response = await this.axiosInstance.post('/auth/refresh');
+            const newAccessToken = response.data.access_token;
+
+            this.setAccessToken(newAccessToken);
+
+            this.refreshSubscribers.forEach((callback) =>
+              callback(newAccessToken)
+            );
+            this.refreshSubscribers = [];
+
+            return this.axiosInstance(originalRequest);
+          } catch (refreshError) {
+            this.refreshSubscribers = [];
+            // Optionally, redirect to login
+            this.clearAccessToken();
+            return Promise.reject(refreshError);
+          } finally {
+            this.isRefreshing = false;
+          }
+        }
+
         return Promise.reject(error);
       }
     );
   }
 
-  // Method to set the token manually (optional)
-  setToken(token: string) {
-    this.token = token;
-    localStorage.setItem('access_token', token);
+  // Method to set the access token
+  setAccessToken(token: string) {
+    this.accessToken = token;
   }
 
-  // Method to clear the token (e.g., on logout)
-  clearToken() {
-    this.token = null;
-    localStorage.removeItem('access_token');
+  // Method to clear the access token
+  clearAccessToken() {
+    this.accessToken = null;
   }
 
   async get<T>(endpoint: string, options: AxiosRequestConfig = {}): Promise<T> {
