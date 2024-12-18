@@ -17,16 +17,15 @@ class BaseApiInstance {
       headers: {
         'Content-Type': 'application/json',
       },
-      // withCredentials: false, // Not needed since we're using Authorization header
+      withCredentials: true, // Not needed since we're using Authorization header
     });
 
     // Interceptor to include Authorization header
     this.axiosInstance.interceptors.request.use(
       (config) => {
-        const token = localStorage.getItem('access_token');
-        if (token) {
+        if (this.token) {
           config.headers = config.headers || {};
-          config.headers['Authorization'] = `Bearer ${token}`;
+          config.headers['Authorization'] = `Bearer ${this.token}`;
         }
         return config;
       },
