@@ -3,6 +3,7 @@ import axios, {
   AxiosError,
   AxiosInstance,
   AxiosRequestConfig,
+  AxiosRequestHeaders,
   AxiosResponse,
 } from 'axios';
 
@@ -43,7 +44,7 @@ class BaseApiInstance {
     this.axiosInstance.interceptors.response.use(
       (response: AxiosResponse) => response,
       async (error: AxiosError) => {
-        const originalRequest = error.config as AxiosRequestConfig | undefined;
+        const originalRequest = error.config;
 
         // Guard clause to ensure originalRequest is defined
         if (!originalRequest) {
@@ -59,15 +60,13 @@ class BaseApiInstance {
           originalRequest._retry = true;
 
           if (this.isRefreshing) {
-            // If token refresh is already in progress, queue the request
             return new Promise((resolve) => {
               this.refreshSubscribers.push((token: string) => {
                 if (originalRequest.headers) {
                   originalRequest.headers['Authorization'] = `Bearer ${token}`;
                 } else {
-                  originalRequest.headers = {
-                    Authorization: `Bearer ${token}`,
-                  };
+                  originalRequest.headers = {} as AxiosRequestHeaders;
+                  originalRequest.headers['Authorization'] = `Bearer ${token}`;
                 }
                 resolve(this.axiosInstance(originalRequest));
               });
@@ -95,17 +94,17 @@ class BaseApiInstance {
               originalRequest.headers['Authorization'] =
                 `Bearer ${newAccessToken}`;
             } else {
-              originalRequest.headers = {
-                Authorization: `Bearer ${newAccessToken}`,
-              };
+              originalRequest.headers = {} as AxiosRequestHeaders;
+              originalRequest.headers['Authorization'] =
+                `Bearer ${newAccessToken}`;
             }
 
             return this.axiosInstance(originalRequest);
           } catch (refreshError) {
-            // If refresh fails, clear the access token and reject
+            // If refresh fails, clear the access token and redirect to login
             this.refreshSubscribers = [];
             this.clearAccessToken();
-            // Optionally, redirect to login or notify the user
+            window.location.href = '/login'; // Adjust the path as needed
             return Promise.reject(refreshError);
           } finally {
             this.isRefreshing = false;
@@ -121,11 +120,14 @@ class BaseApiInstance {
   // Method to set the access token
   setAccessToken(token: string) {
     this.accessToken = token;
+    // Optionally, store the token in localStorage for persistence (not recommended for production)
+    localStorage.setItem('access_token', token);
   }
 
   // Method to clear the access token
   clearAccessToken() {
     this.accessToken = null;
+    localStorage.removeItem('access_token');
   }
 
   // HTTP GET method
