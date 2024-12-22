@@ -38,7 +38,7 @@ const EventList = () => {
 
   return (
     <div>
-      <div className="flex flex-col gap-4">
+      <div className="flex flex-col gap-4 [&>*:first-child]:mt-0 [&>*]:mt-8">
         {data &&
           data.data.map((item) => <EventCard key={item.id} event={item} />)}
       </div>

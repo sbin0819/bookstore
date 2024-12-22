@@ -23,8 +23,8 @@ const EventCard = ({ event }: EventCardProps) => {
   };
 
   return (
-    <div className="flex gap-4">
-      <div className="relative aspect-[4/3] w-full max-w-72 overflow-hidden rounded-lg border">
+    <div className="flex flex-col md:flex-row md:gap-4">
+      <div className="relative aspect-[4/3] w-full flex-shrink-0 overflow-hidden rounded-lg border md:max-w-72">
         {isLoading && (
           <div className="absolute inset-0 flex animate-pulse items-center justify-center bg-gray-200" />
         )}
