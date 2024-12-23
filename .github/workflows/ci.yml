@@ -31,5 +31,5 @@ jobs:
 
       - name: 빌드 실행
         env:
-          APP_ENV: production
+          NEXT_PUBLIC_ENV: production
         run: pnpm build
